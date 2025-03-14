@@ -6,13 +6,13 @@ export type UserDocument = User & Document;
 @Schema()
 export class User{
     @Prop({ required: true })
-    public email: string
+    public email: string;
 
     @Prop({ required: true })
-    public firstName:string
+    public firstName:string;
 
     @Prop({ required: true })
-    public password:string
+    public password:string;
 }
 
 export let UserSchema = SchemaFactory.createForClass(User)

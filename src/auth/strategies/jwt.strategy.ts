@@ -8,18 +8,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private authService:AuthService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.JWT_SECRET||'secret',
+      secretOrKey:'TOP_SECRET',
     });
   }
 
-  async validate(payload:any) {
-      let token = await this.authService.signIn(payload.id)
+  async validate(payload:any) {      
+      console.log('validater',payload)
 
-      if(!token){
-        throw new Error('Ошибка аутентификации')
-      }
-
-      return token
+      return {id:payload.id,firstName:payload.firstName,email:payload.email}
   }
 
 

@@ -4,6 +4,7 @@ import { signInDto } from './schemas/dto/signInDto';
 import { signUpDto } from './schemas/dto/signUpDto';
 import { JwtAuthGuard } from './guards/jwt.guard';
 import { response } from 'express';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api/users')
 export class AuthController {
@@ -14,7 +15,7 @@ export class AuthController {
         return this.authService.signUp(data)
     }
 
-    @Post('signIn')
+    @Post('signin')
     async signIn(@Body() data:signInDto):Promise<string>{
         return this.authService.signIn(data)
     }

@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException, } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { InjectModel } from '@nestjs/mongoose';
+import { InjectModel, InjectConnection } from '@nestjs/mongoose';
 import { Model,Connection, HydratedDocument } from 'mongoose';
 import { UserSchema,UserDocument } from './schemas/user.schema';
 import { signUpDto } from './schemas/dto/signUpDto';
@@ -11,6 +11,7 @@ import { use } from 'passport';
 @Injectable()
 export class AuthService {
     constructor( @InjectModel('User') private userModel:Model<UserDocument>,
+    @InjectConnection() private connection: Connection,
     private jwtService: JwtService,
     ){}
 
@@ -37,7 +38,7 @@ export class AuthService {
     async signIn(data:signInDto):Promise<string>{
         let {email,password} = data
 
-        let user:HydratedDocument<any> = this.userModel.findOne({email:email}).exec();
+        let user = await this.userModel.findOne({email:email}).exec();
 
         if(!user){
             throw new UnauthorizedException('User not found')

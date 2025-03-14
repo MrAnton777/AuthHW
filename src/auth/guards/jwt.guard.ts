@@ -9,12 +9,14 @@ export class JwtAuthGuard extends AuthGuard('jwt'){
     }
 
     public handleRequest(err, user, info) {
+        
         if (err) {
             throw err;
         }
         if (!user) {
             throw new UnauthorizedException();
         }
+
         return user;
     }
 }
