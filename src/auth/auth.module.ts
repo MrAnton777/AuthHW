@@ -6,13 +6,16 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { UserSchema } from "./schemas/user.schema";
 import { JwtStrategy } from './strategies/jwt.strategy';
+import * as dotenv from 'dotenv'
+
+dotenv.config()
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: 'TOP_SECRET'/*process.env.JWT_SECRET*/,
+      secretOrPrivateKey: process.env.SECRET,
       signOptions: { expiresIn: '5h' },
     }),
   ],
